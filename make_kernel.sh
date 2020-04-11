@@ -5,11 +5,10 @@ OUT_DIR=$PWD/output
 KERNEL_DIR=$PWD
 NC=$(nproc --all)
 BUILD_START=$(date +"%s")
-TOOLCHAIN=$PWD/toolchain
-TOOLCHAINS=$PWD/toolchains
 CONFIG=$2
 USER=$3
 LIB=/usr/lib/x86_64-linux-gnu/libmpfr.so.4
+
 # Color Code Script
 Black='\e[0;30m' # Black
 Red='\e[0;31m' # Red
@@ -33,7 +32,11 @@ sudo apt update
 sudo apt-get install -y git ccache automake flex lzop bison gperf build-essential zip curl zlib1g-dev zlib1g-dev:i386 g++-multilib python-networkx libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make optipng maven libssl-dev pwgen libswitch-perl policycoreutils minicom libxml-sax-base-perl libxml-simple-perl bc libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev libgl1-mesa-dev xsltproc unzip
 git clone https://bitbucket.org/UBERTC/aarch64-linux-android-4.9.git toolchain/arm64
 git clone https://bitbucket.org/UBERTC/arm-eabi-4.9.git toolchain/arm32
-git clone https://github.com/romman001/snapdragon_clang_compiler.git -b android-8.0 clang
+git clone https://github.com/romman001/snapdragon_clang_compiler.git -b android-8.0 clang 
+cd clang 
+mv toolchains ../toolchains
+mv build ../build 
+mv README-install ../README-install
 echo
 echo
 echo -e "$Green!!!!!!!! Done !!!!!!!!$nocol"
@@ -42,14 +45,15 @@ exit 1
 if ! [ -a $LIB ];
 then 
 sudo ln -s /usr/lib/x86_64-linux-gnu/libmpfr.so.6 /usr/lib/x86_64-linux-gnu/libmpfr.so.4
+exit 1
 fi
 
 # Clean
-if [[ $1 = -w ]]
-then
+clean ()
+{
 make O=$OUT_DIR clean && make O=$OUT_DIR mrproper
 exit 1
-fi
+}
 
 
 # Build 32 Bit
@@ -113,8 +117,8 @@ export ARCH=arm64
 export SUBARCH=arm64
 export KBUILD_BUILD_USER="$3"
 export KBUILD_BUILD_HOST="BuildHost"
-export LD_LIBRARY_PATH="$KERNEL_DIR/clang/toolchains/llvm-Snapdragon_LLVM_for_Android_8.0/prebuilt/linux-x86_64/lib/"
-export REAL_CC="$KERNEL_DIR/clang/toolchains/llvm-Snapdragon_LLVM_for_Android_8.0/prebuilt/linux-x86_64/bin/clang"
+export LD_LIBRARY_PATH="$KERNEL_DIR/toolchains/llvm-Snapdragon_LLVM_for_Android_8.0/prebuilt/linux-x86_64/lib/"
+export REAL_CC="$KERNEL_DIR/toolchains/llvm-Snapdragon_LLVM_for_Android_8.0/prebuilt/linux-x86_64/bin/clang"
 export CLANG_TRIPLE="aarch64-linux-gnu-"
 export CROSS_COMPILE="$KERNEL_DIR/toolchain/arm64/bin/aarch64-linux-android-"
 export CROSS_COMPILE_ARM32="$KERNEL_DIR/toolchain/arm32/bin/arm-eabi-"
@@ -151,7 +155,10 @@ if [[ $1 = -c ]]
 then
 compile_clang
 fi
-
+if [[ $1 = -w ]]
+then
+clean
+fi
 
 if [ -z $1 ]
 then
