@@ -9,6 +9,7 @@ TOOLCHAIN=$PWD/toolchain
 TOOLCHAINS=$PWD/toolchains
 CONFIG=$2
 USER=$3
+LIB=/usr/lib/x86_64-linux-gnu/libmpfr.so.4
 # Color Code Script
 Black='\e[0;30m' # Black
 Red='\e[0;31m' # Red
@@ -38,6 +39,10 @@ echo
 echo -e "$Green!!!!!!!! Done !!!!!!!!$nocol"
 exit 1
 }
+if ! [ -a $LIB ];
+then 
+sudo ln -s /usr/lib/x86_64-linux-gnu/libmpfr.so.6 /usr/lib/x86_64-linux-gnu/libmpfr.so.4
+fi
 
 # Clean
 if [[ $1 = -w ]]
