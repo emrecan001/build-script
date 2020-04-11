@@ -1,6 +1,6 @@
 # How to use
 ```
-./make_kernel.sh <option> <defconfig>
+./make_kernel.sh <option> <defconfig> <username>
  -r      For Clone Resources and Install Packages
  -w      For Clean Workdir
  -o      For 32 Bit Build

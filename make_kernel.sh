@@ -8,6 +8,7 @@ BUILD_START=$(date +"%s")
 TOOLCHAIN=$PWD/toolchain
 TOOLCHAINS=$PWD/toolchains
 CONFIG=$2
+USER=$3
 # Color Code Script
 Black='\e[0;30m' # Black
 Red='\e[0;31m' # Red
@@ -18,7 +19,6 @@ Purple='\e[0;35m' # Purple
 Cyan='\e[0;36m' # Cyan
 White='\e[0;37m' # White
 nocol='\033[0m' # Default
-
 setup_environment ()
 {
 clear
@@ -53,8 +53,8 @@ compile_arm32 ()
 KERNEL=$KERNEL_DIR/output/arch/arm/boot/zImage-dtb
 export ARCH=arm
 export SUBARCH=arm
-export KBUILD_BUILD_USER="YourName"
-export KBUILD_BUILD_HOST="YourBuildHost"
+export KBUILD_BUILD_USER="$3"
+export KBUILD_BUILD_HOST="BuildHost"
 export CROSS_COMPILE_ARM32="$KERNEL_DIR/toolchain/arm32/bin/arm-eabi-"
 clear
 echo -e "$Green***********************************************"
@@ -80,8 +80,8 @@ compile_arm64 ()
 KERNEL=$KERNEL_DIR/output/arch/arm64/boot/Image.gz-dtb
 export ARCH=arm64
 export SUBARCH=arm64
-export KBUILD_BUILD_USER="YourName"
-export KBUILD_BUILD_HOST="YourBuildHost"
+export KBUILD_BUILD_USER="$3"
+export KBUILD_BUILD_HOST="BuildHost"
 export CROSS_COMPILE="$KERNEL_DIR/toolchain/arm64/bin/aarch64-linux-android-"
 export CROSS_COMPILE_ARM32="$KERNEL_DIR/toolchain/arm32/bin/arm-eabi-"
 clear
@@ -106,8 +106,8 @@ compile_clang ()
 KERNEL=$KERNEL_DIR/output/arch/arm64/boot/Image.gz-dtb
 export ARCH=arm64
 export SUBARCH=arm64
-export KBUILD_BUILD_USER="YourName"
-export KBUILD_BUILD_HOST="YourBuildHost"
+export KBUILD_BUILD_USER="$3"
+export KBUILD_BUILD_HOST="BuildHost"
 export LD_LIBRARY_PATH="$KERNEL_DIR/clang/toolchains/llvm-Snapdragon_LLVM_for_Android_8.0/prebuilt/linux-x86_64/lib/"
 export REAL_CC="$KERNEL_DIR/clang/toolchains/llvm-Snapdragon_LLVM_for_Android_8.0/prebuilt/linux-x86_64/bin/clang"
 export CLANG_TRIPLE="aarch64-linux-gnu-"
