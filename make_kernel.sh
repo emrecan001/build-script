@@ -29,14 +29,12 @@ echo
 sudo apt update
 sudo dpkg --add-architecture i386
 sudo apt update
-sudo apt-get install -y git ccache automake flex lzop bison gperf build-essential zip curl zlib1g-dev zlib1g-dev:i386 g++-multilib python-networkx libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make optipng maven libssl-dev pwgen libswitch-perl policycoreutils minicom libxml-sax-base-perl libxml-simple-perl bc libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev libgl1-mesa-dev xsltproc unzip
+sudo apt-get install -y zstd device-tree-compiler git ccache automake flex lzop bison gperf build-essential zip curl zlib1g-dev zlib1g-dev:i386 g++-multilib python-networkx libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make optipng maven libssl-dev pwgen libswitch-perl policycoreutils minicom libxml-sax-base-perl libxml-simple-perl bc libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev libgl1-mesa-dev xsltproc unzip
 git clone https://bitbucket.org/UBERTC/aarch64-linux-android-4.9.git toolchain/arm64
 git clone https://bitbucket.org/UBERTC/arm-eabi-4.9.git toolchain/arm32
-git clone https://github.com/romman001/snapdragon_clang_compiler.git -b android-8.0 clang 
-cd clang 
-mv toolchains ../toolchains
-mv build ../build 
-mv README-install ../README-install
+wget "https://github.com/kdrag0n/proton-clang-build/releases/download/20200117/proton_clang-11.0.0-20200117.tar.zst"
+tar -I zstd -xvf proton_clang-11.0.0-20200117.tar.zst
+rm proton_clang-11.0.0-20200117.tar.zst
 echo
 echo
 echo -e "$Green!!!!!!!! Done !!!!!!!!$nocol"
@@ -117,8 +115,8 @@ export ARCH=arm64
 export SUBARCH=arm64
 export KBUILD_BUILD_USER="$3"
 export KBUILD_BUILD_HOST="BuildHost"
-export LD_LIBRARY_PATH="$KERNEL_DIR/toolchains/llvm-Snapdragon_LLVM_for_Android_8.0/prebuilt/linux-x86_64/lib/"
-export REAL_CC="$KERNEL_DIR/toolchains/llvm-Snapdragon_LLVM_for_Android_8.0/prebuilt/linux-x86_64/bin/clang"
+export LD_LIBRARY_PATH="$KERNEL_DIR/proton_clang-11.0.0-20200117/lib/"
+export REAL_CC="$KERNEL_DIR/proton_clang-11.0.0-20200117/bin/clang"
 export CLANG_TRIPLE="aarch64-linux-gnu-"
 export CROSS_COMPILE="$KERNEL_DIR/toolchain/arm64/bin/aarch64-linux-android-"
 export CROSS_COMPILE_ARM32="$KERNEL_DIR/toolchain/arm32/bin/arm-eabi-"
