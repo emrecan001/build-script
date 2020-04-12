@@ -30,11 +30,12 @@ sudo apt update
 sudo dpkg --add-architecture i386
 sudo apt update
 sudo apt-get install -y zstd device-tree-compiler git ccache automake flex lzop bison gperf build-essential zip curl zlib1g-dev zlib1g-dev:i386 g++-multilib python-networkx libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make optipng maven libssl-dev pwgen libswitch-perl policycoreutils minicom libxml-sax-base-perl libxml-simple-perl bc libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev libgl1-mesa-dev xsltproc unzip
-git clone https://bitbucket.org/UBERTC/aarch64-linux-android-4.9.git toolchain/arm64
-git clone https://bitbucket.org/UBERTC/arm-eabi-4.9.git toolchain/arm32
+git clone https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9.git -b lineage-17.1 toolchain/arm64
+git clone https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9.git -b lineage-17.1 toolchain/arm32
 wget "https://github.com/kdrag0n/proton-clang-build/releases/download/20200117/proton_clang-11.0.0-20200117.tar.zst"
 tar -I zstd -xvf proton_clang-11.0.0-20200117.tar.zst
 rm proton_clang-11.0.0-20200117.tar.zst
+clear
 echo
 echo
 echo -e "$Green!!!!!!!! Done !!!!!!!!$nocol"
@@ -62,7 +63,7 @@ export ARCH=arm
 export SUBARCH=arm
 export KBUILD_BUILD_USER="$3"
 export KBUILD_BUILD_HOST="BuildHost"
-export CROSS_COMPILE_ARM32="$KERNEL_DIR/toolchain/arm32/bin/arm-eabi-"
+export CROSS_COMPILE_ARM32="$KERNEL_DIR/toolchain/arm32/bin/arm-linux-androideabi-"
 clear
 echo -e "$Green***********************************************"
 echo "            Compiling 32 Bit Kernel "
@@ -90,7 +91,7 @@ export SUBARCH=arm64
 export KBUILD_BUILD_USER="$3"
 export KBUILD_BUILD_HOST="BuildHost"
 export CROSS_COMPILE="$KERNEL_DIR/toolchain/arm64/bin/aarch64-linux-android-"
-export CROSS_COMPILE_ARM32="$KERNEL_DIR/toolchain/arm32/bin/arm-eabi-"
+export CROSS_COMPILE_ARM32="$KERNEL_DIR/toolchain/arm32/bin/arm-linux-androideabi-"
 clear
 echo -e "$Green***********************************************"
 echo "         	  Compiling 64 Bit Kernel "
@@ -119,7 +120,7 @@ export LD_LIBRARY_PATH="$KERNEL_DIR/proton_clang-11.0.0-20200117/lib/"
 export REAL_CC="$KERNEL_DIR/proton_clang-11.0.0-20200117/bin/clang"
 export CLANG_TRIPLE="aarch64-linux-gnu-"
 export CROSS_COMPILE="$KERNEL_DIR/toolchain/arm64/bin/aarch64-linux-android-"
-export CROSS_COMPILE_ARM32="$KERNEL_DIR/toolchain/arm32/bin/arm-eabi-"
+export CROSS_COMPILE_ARM32="$KERNEL_DIR/toolchain/arm32/bin/arm-linux-androideabi-"
 clear
 echo -e "$Green***********************************************"
 echo "            Compiling Kernel With Clang "
